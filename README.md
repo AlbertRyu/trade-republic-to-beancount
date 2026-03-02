@@ -4,14 +4,36 @@ Convert a Trade Republic PDF account statement into Beancount transactions.
 
 ## Quick start
 
-1. Clone this Project to your computer
-2. Create a virtual environment (recommended)
-3. run the command
+1. Clone the repository and enter the project directory.
+
+```bash
+git clone https://github.com/AlbertRyu/trade-republic-to-beancount.git
+cd trade-republic-to-beancount
+```
+
+2. Create a virtual environment. (recommended)
 
 ```bash
 python -m venv .venv
+```
+
+3. Activate the virtual environment.
+
+```bash
 source .venv/bin/activate
+```
+
+4. Install dependencies.
+
+```bash
 pip install -r requirements.txt
+```
+
+5. Put your statement PDF at `statements/statement.pdf`.
+
+6. Run the importer.
+
+```bash
 python main.py
 ```
 
