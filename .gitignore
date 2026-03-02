@@ -11,7 +11,7 @@ wheels/
 .venv
 
 # Personal files.
-/statements
+
 /output
 *.pdf
 
