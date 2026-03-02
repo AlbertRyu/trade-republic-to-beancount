@@ -1,8 +1,12 @@
-# beancount-importer
+# trade-republic-to-beancount
 
 Convert a Trade Republic PDF account statement into Beancount transactions.
 
-## Quick start (no `uv` required)
+## Quick start
+
+1. Clone this Project to your computer
+2. Create a virtual environment (recommended)
+3. run the command
 
 ```bash
 python -m venv .venv
@@ -17,13 +21,6 @@ By default, this reads `statements/statement.pdf` and writes `output/output.bean
 
 ```bash
 python main.py --input statements/statement.pdf --output output/output.bean
-```
-
-You can also use `uv` if you want:
-
-```bash
-uv sync
-uv run main.py
 ```
 
 ## What it does

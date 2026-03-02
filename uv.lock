@@ -11,7 +11,7 @@ resolution-markers = [
 ]
 
 [[package]]
-name = "beancount-importer"
+name = "trade-republic-to-beancount"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

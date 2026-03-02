@@ -1,5 +1,5 @@
 [project]
-name = "beancount-importer"
+name = "trade-republic-to-beancount"
 version = "0.1.0"
 description = "Convert Trade Republic PDF statements into Beancount entries"
 readme = "README.md"
@@ -9,4 +9,4 @@ dependencies = [
 ]
 
 [project.scripts]
-beancount-importer = "main:main"
+trade-republic-to-beancount = "main:main"
