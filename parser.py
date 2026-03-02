@@ -1,6 +1,7 @@
 from models import Transaction
 from datetime import datetime
 
+## Hardcoded page structure for TradeRepublic Account Statements
 COLUMNS = [
     (74,  100, 'datum'),
     (100, 160, 'typ'),
@@ -10,9 +11,6 @@ COLUMNS = [
     (475, 9999, 'saldo'),
 ]
 
-def parse_the_pdf(file_path):
-    pass
-        
 
 def parse_the_page(words):
 
@@ -26,14 +24,16 @@ def parse_the_page(words):
 
     return transaction_per_page
 
+
 def group_words_by_row(words, tolerance=20):
-    """把 top 值相近的词归为同一行"""
+    """group the words with similar top values as one row"""
     rows = []
     
     for word in sorted(words, key=lambda w: w['top']):
-        if not (word['top'] > 159 and word['top'] < 750): # Page middle
+        if not (word['top'] > 159 and word['top'] < 750): # Hardcoded limit for the middle of the page.
             continue
-        # 看这个词是否属于已有的某一行
+
+        # Check that if the word belongs to an existing row.
         placed = False
         for row in rows:
             row_top = row[0]['top']
@@ -42,7 +42,7 @@ def group_words_by_row(words, tolerance=20):
                 placed = True
                 break
         
-        # 没有匹配的行，新建一行
+        # If not, create a new row.
         if not placed:
             rows.append([word])
     
@@ -57,8 +57,8 @@ def get_column(x0):
 
 
 def parse_row(row_words):
-    """一行词 → 一个 Transaction（或 None 如果不是交易行）"""
-    # 按列分组
+    """one row of word → one Transaction."""
+    # columns
     columns = {'datum': [], 'typ': [], 'beschreibung': [], 
                'eingang': [], 'ausgang': [], 'saldo': []}
     
@@ -67,23 +67,23 @@ def parse_row(row_words):
         if col:
             columns[col].append(word['text'])
     
-    # 必须有日期才算是交易行
+    # if doesn't contains a datum, it's not a transaction.
     if not columns['datum']:
         return None
     
-    # 拼接各列文本
+    # Join the words for different column
     date_str = " ".join(columns['datum'])      # "02 Jan. 2026"
     typ      = " ".join(columns['typ'])         # "Handel"
     desc     = " ".join(columns['beschreibung'])
-    eingang  = " ".join(columns['eingang'])     # "100,00 €" 或空
+    eingang  = " ".join(columns['eingang'])     # "100,00 €" or empty
     ausgang  = " ".join(columns['ausgang'])
     saldo  = " ".join(columns['saldo'])
 
     
-    # 转换日期
+    # Transform the date 
     date = datetime.strptime(date_str, "%d %b. %Y").date()
     
-    # 转换金额（德式格式："1.234,56 €" → 1234.56）
+    # Parse the amount（German format, "1.234,56 €" → 1234.56）
     def parse_amount(s):
         if not s:
             return 0.0
