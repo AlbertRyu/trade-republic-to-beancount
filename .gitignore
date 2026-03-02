@@ -10,7 +10,10 @@ wheels/
 # Virtual environments
 .venv
 
-pdfs/
+# Personal files.
+/statements
+/output
+*.pdf
 
 ### macOS ###
 # General

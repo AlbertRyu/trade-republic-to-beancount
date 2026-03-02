@@ -5,14 +5,14 @@ from formatter import format_transaction
 def main():
     print("Hello from beancount-importer!")
 
-    with pdfplumber.open('pdfs/statement.pdf') as pdf:
+    with pdfplumber.open('statements/statement.pdf') as pdf:
 
         transactions = []
         for page_num, page in enumerate(pdf.pages):
             words = page.extract_words(x_tolerance=1)
             # x_tolerance=1 for KartentransakationLidl is detected to be one word in the default value of 3
 
-            # 检查这一页是否有 BARMITTELÜBERSICHT
+            # Check if this stage BARMITTELÜBERSICHT
             barmittel = next((w for w in words if w['text'] == 'BARMITTELÜBERSICHT'), None)
             
             if barmittel:
@@ -30,7 +30,7 @@ def main():
             if barmittel:
                 break
 
-        with open("output.bean", "w", encoding="utf-8") as f:
+        with open("output/output.bean", "w", encoding="utf-8") as f:
             for t in transactions:
                 entry = format_transaction(t)
                 if entry:
