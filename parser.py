@@ -1,5 +1,7 @@
 from models import Transaction
 from datetime import datetime
+from dateutil.parser import parserinfo
+from dateutil.parser import parse
 
 ## Hardcoded page structure for TradeRepublic Account Statements
 COLUMNS = [
@@ -56,6 +58,14 @@ def get_column(x0):
     return None
 
 
+class GermanParserInfo(parserinfo):
+    MONTHS = [
+        ("Jan", "Januar"), ("Feb", "Februar"), ("Mär", "Mrz", "März"), 
+        ("Apr", "April"), ("Mai", "Mai"), ("Jun", "Juni"), 
+        ("Jul", "Juli"), ("Aug", "August"), ("Sep", "September"), 
+        ("Okt", "Oktober"), ("Nov", "November"), ("Dez", "Dezember")
+    ]
+
 def parse_row(row_words):
     """one row of word → one Transaction."""
     # columns
@@ -81,7 +91,7 @@ def parse_row(row_words):
 
     
     # Transform the date 
-    date = datetime.strptime(date_str, "%d %b. %Y").date()
+    date = parse(date_str, GermanParserInfo()).date()
     
     # Parse the amount（German format, "1.234,56 €" → 1234.56）
     def parse_amount(s):
